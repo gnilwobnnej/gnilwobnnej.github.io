@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>World Countries</title>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h4>World Countries API</h4>
+    <p>The following data endpoints are available:</p>
+    <ul>
+        <li>
+            <a href="/api/v1.0/countries">/api/v1.0/countries</a>
+        </li>
+        <li>
+            <a href="/api/v1.0/countrymetadata">/api/v1.0/countrymetada/</a>
+        </li>
+    </ul>
+    
+    <div class="well">
+        <h5>Country:</h5>
+        <select id="selDataset"></select>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Country Data</h3>
+        </div>
+        <div id="sample-metadata" class="panel-body"></div>
+    </div>
+    
+
+    <script src="../static/js/app.js"></script>
+</body>
+</html>
