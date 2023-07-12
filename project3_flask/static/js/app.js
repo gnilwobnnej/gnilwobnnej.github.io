@@ -1,7 +1,8 @@
 //Get data endpoints
 const apiCountries = ("http://localhost:8000/api/v1.0/countries");
 const apiCountryMetaData = ("http://localhost:8000/api/v1.0/countrymetadata/");
-const apiCountryAllData = ("/api/v1.0/countries/alldata")
+const apiCountryAllData = ("/api/v1.0/countries/alldata");
+const geoJSONData = ("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"); //https://github.com/nvkelso/natural-earth-vector
 
 //Fetch json data: add Countries to drop down list
 d3.json(apiCountries).then(function(data) {
@@ -26,16 +27,76 @@ d3.json(apiCountries).then(function(data) {
 //Startup country
 function init() {
     getData("Afghanistan");
+    getCountryMap("Afghanistan");
 }
 
 // On change to the DOM , call getData()
 d3.selectAll("#selDataset").on("change", function() {
     let subjectSelected = d3.select("#selDataset");
-    let subject = subjectSelected.property("value")
-    getData(subject)
+    let subject = subjectSelected.property("value");
+    getData(subject);
+    getCountryMap(subject);
     //console.log("SUBJECT:", subject)
 });
 
+function getCountryMap(subject) {
+    
+    //Fetch GeoJSON Data
+    d3.json(geoJSONData).then(function(data) {
+        
+        //Ensure HTML container is empty
+        let container = L.DomUtil.get("map");
+        if (container != null) {
+                container._leaflet_id = null;
+        }
+
+        filteredCoord = data.features.filter(function(d) {
+            return d.properties.NAME_EN === subject;
+        })
+        let countryCoord = filteredCoord;
+        let countryLat = countryCoord[0].properties.LABEL_Y;
+        let countryLong = countryCoord[0].properties.LABEL_X;
+        let bbox = countryCoord[0].bbox;
+        console.log("DATA", countryCoord);
+        console.log("LAT", countryLat);
+        console.log("LONG", countryLong);
+        console.log("BBOX", bbox);
+
+        //Calculate area of map for zoom
+        let x1 = bbox[0];
+        let y1 = bbox[1];
+        let x2 = bbox[2];
+        let y2 = bbox[3];
+        let area = (x2 - x1) * (y2 - y1);
+        console.log("AREA", area);
+
+        if(area<50){
+            zoom = 4;
+        } else if(area<100){
+            zoom = 3;
+        } else if(area<200) {
+            zoom = 2;
+        } else {
+            zoom = 1;
+        }
+
+        //Create a Map Object
+        let myMap = L.map("map", {
+            center: [countryLat, countryLong],
+            zoom: zoom
+
+        });
+
+        //Create Base Layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(myMap);
+
+        //Display Map Coordinates
+        geoJSON = L.geoJSON(filteredCoord).addTo(myMap);
+      
+    });
+}
 
 function getData(subject) {
 
@@ -45,7 +106,7 @@ function getData(subject) {
             return d.country === subject;
         })
 
-        console.log("FILTERED DATA", filteredData);
+        //console.log("FILTERED DATA", filteredData);
         let metaData = filteredData;
         
         //console.log(subject);

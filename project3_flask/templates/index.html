@@ -5,11 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>World Countries</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin="" />
+
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-       
+    
+    <!-- The div that holds the drop down and country metadata -->
     <div class="well">
         <h3>Country:</h3>
         <select id="selDataset"></select>
@@ -20,12 +27,20 @@
         </div>
         <div id="sample-metadata" class="panel-body"></div>
     </div>
+    
+    <!-- The divs that hold the visuals -->
+    <div id="map" style="height: 200px; width: 500px;">
+    </div>
+
     <div class="col-md-5">
         <div id="bar"></div>
     </div>
+
     <div class="col-md-5">
         <div id="line"></div>
     </div>
+
+
 
     <!--API ENDPOINTS-->
     <h3>World Countries API</h3>
@@ -42,6 +57,12 @@
         </li>
     </ul>
 
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+    <!-- Our JS -->
     <script src="../static/js/app.js"></script>
 </body>
 </html>
