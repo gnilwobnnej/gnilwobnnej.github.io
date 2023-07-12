@@ -27,7 +27,7 @@ d3.json(apiCountries).then(function(data) {
 //Startup country
 function init() {
     getData("Afghanistan");
-    getCountryMap("Afghanistan");
+    getCountryMap("AFG");
 }
 
 // On change to the DOM , call getData()
@@ -35,32 +35,52 @@ d3.selectAll("#selDataset").on("change", function() {
     let subjectSelected = d3.select("#selDataset");
     let subject = subjectSelected.property("value");
     getData(subject);
-    getCountryMap(subject);
+    getCountryCCA3(subject);
     //console.log("SUBJECT:", subject)
 });
 
-function getCountryMap(subject) {
-    
+function getCountryCCA3(subject) {
+    d3.json(apiCountryAllData).then(function(data) {
+        filteredData1 = data.filter(function(d1) {
+            return d1.country === subject;
+        })
+        let name = filteredData1[0].country;
+        let abrv = filteredData1[0].cca3;
+        //console.log("NAME", name);
+        //console.log("ABRV", abrv);
+        getCountryMap(abrv);
+    })
+}
+
+function getCountryMap(abrv) {
+    //console.log(abrv);
+
     //Fetch GeoJSON Data
     d3.json(geoJSONData).then(function(data) {
-        
+        //console.log(data);
+
         //Ensure HTML container is empty
         let container = L.DomUtil.get("map");
         if (container != null) {
                 container._leaflet_id = null;
         }
 
+        //Get Data for Maps
         filteredCoord = data.features.filter(function(d) {
-            return d.properties.NAME_EN === subject;
+            return d.properties.ISO_A3 === abrv;
         })
         let countryCoord = filteredCoord;
+        //console.log("DATA", countryCoord);
+        
         let countryLat = countryCoord[0].properties.LABEL_Y;
         let countryLong = countryCoord[0].properties.LABEL_X;
         let bbox = countryCoord[0].bbox;
-        console.log("DATA", countryCoord);
-        console.log("LAT", countryLat);
-        console.log("LONG", countryLong);
-        console.log("BBOX", bbox);
+        
+        
+        //console.log("LAT", countryLat);
+        //console.log("LONG", countryLong);
+        //console.log("BBOX", bbox);
+        //console.log("CCA3", cca3);
 
         //Calculate area of map for zoom
         let x1 = bbox[0];
@@ -68,7 +88,7 @@ function getCountryMap(subject) {
         let x2 = bbox[2];
         let y2 = bbox[3];
         let area = (x2 - x1) * (y2 - y1);
-        console.log("AREA", area);
+        //console.log("AREA", area);
 
         if(area<50){
             zoom = 4;
