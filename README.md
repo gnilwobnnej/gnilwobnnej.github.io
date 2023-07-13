@@ -9,7 +9,7 @@
 * [Justin Mangaroo]
 
 ## start
-To run this project, run he main file
+To run this project, run in the main file
 
 ```
 $ python main.py
