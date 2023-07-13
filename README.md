@@ -12,7 +12,7 @@
 To run this project, run in the main file
 
 ```
-$ python main.py
+$ python app.py
 
 Open Webpage with http://localhost:8000/
 
