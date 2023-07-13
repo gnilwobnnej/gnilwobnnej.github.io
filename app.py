@@ -140,12 +140,6 @@ def countries_alldata():
 
     return jsonify(country_alldata)
 
-@app.route('/execute')
-def execute():
-    import subprocess
-    subprocess.call(['python', 'app.py'])
-    return 'Python script executed successfully!'
-
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(port = 8000, debug=True)
 

@@ -1,6 +1,6 @@
 //Get data endpoints
-const apiCountries = ("/api/v1.0/countries");
-const apiCountryMetaData = ("/api/v1.0/countrymetadata/");
+const apiCountries = ("http://localhost:8000/api/v1.0/countries");
+const apiCountryMetaData = ("http://localhost:8000/api/v1.0/countrymetadata/");
 const apiCountryAllData = ("/api/v1.0/countries/alldata");
 const geoJSONData = ("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson"); //https://github.com/nvkelso/natural-earth-vector
 
