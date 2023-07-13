@@ -1,70 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>World Population By Country</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>World Countries</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin="" />
+
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+
+        #sample-metadata {
+            font-size: 1.5vw;
+        }
+        #selDataset {
+            font-size:1.5vw
+        }
+        #map {
+            margin: 0;
+            position: absolute;
+            top: 90%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+        }
+        .row {
+            margin: auto;
+            width: 65%;
+            border: 3px solid grey;
+            padding: 5px;
+            text-align: center;
+}
+        body {
+            color: white;
+            background-image: url(https://media.istockphoto.com/id/862480656/vector/abstract-world-map-blue-map-of-the-earth-from-the-square-points-dark-background-blue-glow.jpg?s=612x612&w=0&k=20&c=MhiXx71esxaAVNl1sIwRTsFZ9lMTgZhQal8RJWKZSaE=);
+        
+        }
+
+        div {
+            padding: 10px 10px 10px;
+}
+        a {
+            font-size: 20px;
+            color: plum;
+}
+        </style>
+
+        
 </head>
-
 <body>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12 jumbotron text-center">
-        <h1>World Population By Country</h1>
-        <p>Use the interactive charts below to explore the dataset</p>
-      </div>
+    <div class="container">
+        <div class="row">
+          <div class="col-md-12 jumbotron text-center">
+            <h1 style="font-size:4.5vw">World Population By Country</h1>
+            <p style="font-size:2vw">Use the interactive charts below to explore the dataset</p>
+          </div>
+        </div>
+    <!-- The div that holds the drop down and country metadata -->
+    <div class="well">
+        <h3 style="font-size:2vw">Country:</h3>
+        <select id="selDataset"></select>
     </div>
-    <!---Dropdown-->
-    <div class="row">
-      <div class="col-md-2">
-        <div class="well">
-          <h5>Country</h5>
-          <select id="selDataset" onchange="option(this.value)"></select>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 style="font-size:2vw">Country Data:</h3>
         </div>
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">Country Information</h3>
-          </div>
-          <div id="sample-metadata" class="panel-body"></div>
-        </div>
-      </div>
-<!--Dropdown2
-      <div class="row">
-        <div class="col-md-2">
-          <div class="well">
-            <h5>Not Country</h5>
-            <select id="selDataset" onchange="optionChanged(this.value)"></select>
-          </div>
-          </div>
-        </div>-->
-      <!--This needs to be changed, bargraph-->
-      <div class="col-md-5">
+        <div id="sample-metadata" class="panel-body"></div>
+    </div>
+    
+    <!-- The divs that hold the visuals -->
+    <div id="map" style="height: 450px; width: 750px;">
+    </div>
+
+    <div class="col-md-5">
         <div id="bar"></div>
-      </div>
-      <div class="col-md-5">
-        <div id="gauge"></div>
-      </div>
     </div>
-    <!--This needs to be changed, Bubblegraph-->
-    <div class="row">
-      <div class="col-md-12">
-        <div id="bubble"></div>
-      </div>
+
+    <div class="col-md-5">
+        <div id="line"></div>
     </div>
-  </div>
 
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <!--<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>-->
-  <script src="java.js"></script>
-  <script src="countries-table.js"></script>
-  <script src="countries-table.json"></script>
 
-  
 
+    <!--API ENDPOINTS-->
+    <h3>World Countries API</h3>
+    <p>The following data endpoints are available:</p>
+    <ul>
+        <li>
+            <a href="/api/v1.0/countries">/api/v1.0/countries</a>
+        </li>
+        <li>
+            <a href="/api/v1.0/countries/alldata">/api/v1.0/countries/alldata</a>
+        </li>
+        <li>
+            <a href="/api/v1.0/countrymetadata">/api/v1.0/countrymetada/</a>
+        </li>
+    </ul>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+
+    <!-- Our JS -->
+    <script src="../static/js/app.js"></script>
 </body>
-
 </html>
